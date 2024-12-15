@@ -1,0 +1,64 @@
+# Created by Juliette Richards 12/07/2024
+# Written to create a Budget with visualization through a chart
+
+# Import Matplotlib for graphing
+import matplotlib.pyplot as plt
+
+# Define the Budget Builder function
+def Budget_Builder():
+    print("Welcome to Budget Builder!")
+    print("Please input decimal numbers for answers, if you do not have the bill input 0.")
+
+    # Function to validate user input as a float
+    def get_float_input(prompt):
+        while True:
+            try:
+                value = float(input(prompt))
+                return value
+            except ValueError:
+                print("Error, please enter a valid decimal number.")
+
+    # Collect user inputs
+    take_home_pay = get_float_input("Enter your monthly take-home pay: ")
+    electricity_bill = get_float_input("Enter your electricity bill: ")
+    water_bill = get_float_input("Enter your water bill: ")
+    garbage_bill = get_float_input("Enter your garbage bill: ")
+    housing_bill = get_float_input("Enter your housing bill: ")
+    grocery_bill = get_float_input("Enter your grocery bill: ")
+    wifi_bill = get_float_input("Enter your Wi-Fi bill: ")
+    subscription_bill = get_float_input("Enter your total monthly subscriptions bill: ")
+
+    # Calculate total bills
+    total_bills = round(
+        electricity_bill + water_bill + garbage_bill + housing_bill + grocery_bill + wifi_bill + subscription_bill, 2
+    )
+
+    # Check if bills exceed income
+    if total_bills > take_home_pay:
+        print("Error, your bills exceed your monthly income. Please adjust your inputs.")
+        return  # This ends the program for the user to restart
+
+    # Calculate the remaining income, savings, and spending money
+    remaining_income = round(take_home_pay - total_bills, 2)
+    savings = round(remaining_income * 0.20, 2)
+    spending_money = round(remaining_income - savings, 2)
+
+    # Display the budget breakdown
+    print("\nBudget Breakdown:")
+    print(f"Income: ${take_home_pay}")
+    print(f"Bills: ${total_bills}")
+    print(f"Savings: ${savings}")
+    print(f"Spending Money: ${spending_money}")
+
+    # Create a pie chart to display the breakdown
+    labels = ["Bills", "Savings", "Spending Money"]
+    values = [total_bills, savings, spending_money]
+    colors = ["red", "green", "blue"]
+
+    plt.figure(figsize=(8, 6))
+    plt.pie(values, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors)
+    plt.title("Budget Breakdown")
+    plt.show()
+
+# Run the Budget Builder program
+Budget_Builder()
